@@ -27,7 +27,7 @@ spec:
         server: https://kubernetes.default.svc # In-cluster deployment
         namespace: '{{index .path.segments 1}}-{{index .path.segments 2}}'
       # Project within ArgoCD to which the application belongs
-      project: myapp-project
+      project: myapp
       # Sync policy for the application
       # Configures:
       # - automated prune: which will delete resources that are no longer defined in Git
