@@ -1,0 +1,10 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: myapp
+spec:
+  sourceRepos:
+  - https://github.com/kristeey/argo-test-chamber
+  destinations:
+  - namespace: 'myprefix-*'
+    server: '*'
