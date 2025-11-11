@@ -3,6 +3,9 @@ kind: ApplicationSet
 metadata:
   name: myapp
   namespace: argocd
+  annotations:
+    # Sync Application projects before applying Application Sets
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
     - git:

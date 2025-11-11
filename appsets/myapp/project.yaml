@@ -3,6 +3,9 @@ kind: AppProject
 metadata:
   name: myapp
   namespace: argocd
+  annotations:
+    # Sync Application projects before applying Application Sets
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   sourceRepos:
   - https://github.com/kristeey/argo-test-chamber
