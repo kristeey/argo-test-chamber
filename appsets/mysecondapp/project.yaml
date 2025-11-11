@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: mysecondapp
+  namespace: argocd
+spec:
+  sourceRepos:
+  - https://github.com/kristeey/argo-test-chamber
+  destinations:
+  - namespace: 'mysecondapp-*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: ""
+    kind: Namespace
