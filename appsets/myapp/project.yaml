@@ -9,3 +9,6 @@ spec:
   destinations:
   - namespace: 'myapp-*'
     server: '*'
+  clusterResourceWhitelist:
+  - group: ""
+    kind: Namespace
