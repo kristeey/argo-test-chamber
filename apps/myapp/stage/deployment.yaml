@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app
-  namespace: my-app-stage
+  name: myapp
+  namespace: myapp-stage
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-app
+      app: myapp
   template:
     metadata:
       labels:
-        app: my-app
+        app: myapp
     spec:
       containers:
-      - name: my-app
+      - name: myapp
         image: gcr.io/google-samples/hello-app:1.0
         ports:
         - containerPort: 8080
