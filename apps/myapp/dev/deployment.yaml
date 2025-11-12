@@ -4,7 +4,7 @@ metadata:
   name: myapp
   namespace: myapp-dev
 spec:
-  image: gcr.io/myproject/myapp:latest
+  image: gcr.io/google-samples/hello-app:1.0
   environment: dev
   autoscaling:
     enable: true
