@@ -1,20 +1,12 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps.kristian.io/v1alpha1
+kind: KristianApp
 metadata:
   name: myapp
   namespace: myapp-dev
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: myapp
-  template:
-    metadata:
-      labels:
-        app: myapp
-    spec:
-      containers:
-      - name: myapp
-        image: gcr.io/google-samples/hello-app:1.0
-        ports:
-        - containerPort: 8080
+  image: gcr.io/myproject/myapp:latest
+  environment: dev
+  autoscaling:
+    enable: true
+  ingress:
+    enable: false
