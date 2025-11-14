@@ -8,8 +8,8 @@ spec:
   environment: dev
   autoscaling:
     enable: true
-    maxReplicas: 5
-    minReplicas: 3
+    maxReplicas: 2
+    minReplicas: 1
   ingress:
     enable: false
   resources:
