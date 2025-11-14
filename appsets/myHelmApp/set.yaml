@@ -16,7 +16,7 @@ spec:
           - path: "apps/myhelmapp/*/config.json"
         values:
           applicationName: '{{index .path.segments 1}}-{{index .path.segments 2}}'
-          helmValuesPath: /apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml
+          helmValuesPath: '/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml'
 
   goTemplate: true
   goTemplateOptions: ['missingkey=error']
