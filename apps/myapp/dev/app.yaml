@@ -12,3 +12,6 @@ spec:
     minReplicas: 3
   ingress:
     enable: false
+  resources:
+    memoryRequest: 64Mi
+    memoryLimit: 64Mi

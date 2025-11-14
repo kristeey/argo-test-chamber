@@ -14,6 +14,9 @@ image:
 ingress:
   enabled: false
 
+resources:
+  memory: 64Mi
+
 autoscaling:
   enabled: true
   minReplicas: 1
