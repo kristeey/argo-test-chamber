@@ -13,7 +13,7 @@ spec:
         repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
         revision: HEAD
         files:
-          - path: "apps/myHelmApp/*/config.json"
+          - path: "apps/myhelmapp/*/config.json"
         values:
           applicationName: '{{index .path.segments 1}}-{{index .path.segments 2}}'
           helmValuesPath: /apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml
@@ -40,7 +40,7 @@ spec:
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc # In-cluster deployment
-        namespace: '{{index .path.segments 1}}-{{index .path.segments 2}}'
+        namespace: '{{.applicationName}}'
       # Project within ArgoCD to which the application belongs
       project: myhelmapp
       # Sync policy for the application
@@ -60,5 +60,5 @@ spec:
         managedNamespaceMetadata:
           labels:
             app.kubernetes.io/managed-by: argocd-applicationset-controller
-            owner: myHelmApp-team
+            owner: myhelmapp-team
 
