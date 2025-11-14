@@ -14,19 +14,20 @@ spec:
         revision: HEAD
         files:
           - path: "apps/myhelmapp/*/config.json"
-        values:
-          applicationName: '{{index .path.segments 1}}-{{index .path.segments 2}}'
-          helmValuesPath: '/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml'
 
   goTemplate: true
   goTemplateOptions: ['missingkey=error']
   template:
     metadata:
       # Name of the application decided by the app folder and environment folder
-      name: '{{.applicationName}}'
+      name: '{{index .path.segments 1}}-{{index .path.segments 2}}'
     spec:
       # Source repository and path for the application manifests
       sources:
+        # Reference to values repository
+        - repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
+          targetRevision: HEAD
+          ref: values
         # Use external versioned Helm chart.  
         - repoURL: 'https://kristeey.github.io/kristian-app-chart'
           chart: kristian-app
@@ -34,13 +35,13 @@ spec:
           targetRevision: '{{.helmVersion}}' 
           helm:
             valueFiles:
-              - '{{.helmValuesPath}}'
+              - '$values/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml'
         
         
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc # In-cluster deployment
-        namespace: '{{.applicationName}}'
+        namespace: '{{index .path.segments 1}}-{{index .path.segments 2}}'
       # Project within ArgoCD to which the application belongs
       project: myhelmapp
       # Sync policy for the application
