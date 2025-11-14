@@ -27,18 +27,14 @@ spec:
     spec:
       # Source repository and path for the application manifests
       sources:
-        # Reference to values repository
-        - repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
-          targetRevision: HEAD
-          ref: values
         # Use external versioned Helm chart.  
         - repoURL: 'https://kristeey.github.io/kristian-app-chart'
           chart: kristian-app
           # Specify the version of the Helm chart from config.json
           targetRevision: '{{.helmVersion}}' 
           helm:
-            valuesFiles:
-              - '$values{{.helmValuesPath}}'
+            valueFiles:
+              - '{{.helmValuesPath}}'
         
         
       # Destination cluster and namespace to deploy the application
