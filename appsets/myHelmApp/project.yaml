@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: mysecondapp
+  name: myhelmapp
   namespace: argocd
   annotations:
     # Sync Application projects before applying Application Sets
@@ -9,8 +9,9 @@ metadata:
 spec:
   sourceRepos:
   - https://github.com/kristeey/argo-test-chamber
+  - https://kristeey.github.io/kristian-app-chart
   destinations:
-  - namespace: 'mysecondapp-*'
+  - namespace: 'myhelmapp-*'
     server: '*'
   clusterResourceWhitelist:
   - group: ""
