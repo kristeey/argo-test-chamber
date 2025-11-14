@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       # Name of the application decided by the app folder and environment folder
-      name: '{{.applicationName}}'
+      name: '{{.values.applicationName}}'
     spec:
       # Source repository and path for the application manifests
       sources:
@@ -34,12 +34,12 @@ spec:
           targetRevision: '{{.helmVersion}}' 
           helm:
             valueFiles:
-              - '{{.helmValuesPath}}'        
+              - '{{.values.helmValuesPath}}'        
         
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc # In-cluster deployment
-        namespace: '{{.applicationName}}'
+        namespace: '{{.values.applicationName}}'
       # Project within ArgoCD to which the application belongs
       project: myhelmapp
       # Sync policy for the application
