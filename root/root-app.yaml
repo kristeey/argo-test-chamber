@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/kristeey/argo-test-chamber.git
     targetRevision: HEAD
-    path: appsets
+    path: appsets/my-kro-app
     # Recursively include all manifests in subdirectories
     directory:
       recurse: true
