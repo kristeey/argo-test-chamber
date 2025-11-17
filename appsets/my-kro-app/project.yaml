@@ -10,7 +10,7 @@ spec:
   sourceRepos:
   - https://github.com/kristeey/argo-test-chamber
   destinations:
-  - namespace: 'mykroapp-*'
+  - namespace: 'my-kro-app-*'
     server: '*'
   clusterResourceWhitelist:
   - group: ""
