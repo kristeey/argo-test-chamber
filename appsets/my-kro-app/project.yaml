@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: mykroapp
+  name: my-kro-app
   namespace: argocd
   annotations:
     # Sync Application projects before applying Application Sets
