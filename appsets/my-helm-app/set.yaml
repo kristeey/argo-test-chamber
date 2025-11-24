@@ -1,67 +1,67 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: my-helm-app
-  namespace: argocd
-  annotations:
-    # Sync Application projects before applying Application Sets
-    argocd.argoproj.io/sync-wave: "1"
-spec:
-  generators:
-    # Git Files generator reads config.json from each environment directory
-    - git:
-        repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
-        revision: HEAD
-        files:
-          - path: "apps/my-helm-app/*/config.json"
-        values:
-          applicationName: '{{index .path.segments 1}}-{{index .path.segments 2}}'
-          helmValuesPath: '/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml'
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: my-helm-app
+#   namespace: argocd
+#   annotations:
+#     # Sync Application projects before applying Application Sets
+#     argocd.argoproj.io/sync-wave: "1"
+# spec:
+#   generators:
+#     # Git Files generator reads config.json from each environment directory
+#     - git:
+#         repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
+#         revision: HEAD
+#         files:
+#           - path: "apps/my-helm-app/*/config.json"
+#         values:
+#           applicationName: '{{index .path.segments 1}}-{{index .path.segments 2}}'
+#           helmValuesPath: '/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml'
 
-  goTemplate: true
-  goTemplateOptions: ['missingkey=error']
-  template:
-    metadata:
-      # Name of the application decided by the app folder and environment folder
-      name: '{{.values.applicationName}}'
-    spec:
-      # Source repository and path for the application manifests
-      sources:
-        # reference to values repository
-        - repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
-          targetRevision: HEAD
-          ref: valuesrepo
-        # Use external versioned Helm chart.  
-        - repoURL: 'https://kristeey.github.io/kristian-app-chart'
-          chart: kristian-app
-          # Specify the version of the Helm chart from config.json
-          targetRevision: '{{.helmVersion}}' 
-          helm:
-            valueFiles:
-              - '$valuesrepo/{{.values.helmValuesPath}}'   
+#   goTemplate: true
+#   goTemplateOptions: ['missingkey=error']
+#   template:
+#     metadata:
+#       # Name of the application decided by the app folder and environment folder
+#       name: '{{.values.applicationName}}'
+#     spec:
+#       # Source repository and path for the application manifests
+#       sources:
+#         # reference to values repository
+#         - repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
+#           targetRevision: HEAD
+#           ref: valuesrepo
+#         # Use external versioned Helm chart.  
+#         - repoURL: 'https://kristeey.github.io/kristian-app-chart'
+#           chart: kristian-app
+#           # Specify the version of the Helm chart from config.json
+#           targetRevision: '{{.helmVersion}}' 
+#           helm:
+#             valueFiles:
+#               - '$valuesrepo/{{.values.helmValuesPath}}'   
         
-      # Destination cluster and namespace to deploy the application
-      destination:
-        server: https://kubernetes.default.svc # In-cluster deployment
-        namespace: '{{.values.applicationName}}'
-      # Project within ArgoCD to which the application belongs
-      project: my-helm-app
-      # Sync policy for the application
-      # Configures:
-      # - automated prune: which will delete resources that are no longer defined in Git
-      # - self-heal: which will automatically sync any out-of-sync resources
-      # - Auto create namespace: which will create the namespace if it doesn't exist
-      # - Server-side apply: which enables server-side apply for resource management
-      # - Add custom labels to the managed namespace
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-          - ServerSideApply=true
-        managedNamespaceMetadata:
-          labels:
-            app.kubernetes.io/managed-by: argocd-applicationset-controller
-            owner: my-helm-app-team
+#       # Destination cluster and namespace to deploy the application
+#       destination:
+#         server: https://kubernetes.default.svc # In-cluster deployment
+#         namespace: '{{.values.applicationName}}'
+#       # Project within ArgoCD to which the application belongs
+#       project: my-helm-app
+#       # Sync policy for the application
+#       # Configures:
+#       # - automated prune: which will delete resources that are no longer defined in Git
+#       # - self-heal: which will automatically sync any out-of-sync resources
+#       # - Auto create namespace: which will create the namespace if it doesn't exist
+#       # - Server-side apply: which enables server-side apply for resource management
+#       # - Add custom labels to the managed namespace
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
+#         syncOptions:
+#           - CreateNamespace=true
+#           - ServerSideApply=true
+#         managedNamespaceMetadata:
+#           labels:
+#             app.kubernetes.io/managed-by: argocd-applicationset-controller
+#             owner: my-helm-app-team
 
