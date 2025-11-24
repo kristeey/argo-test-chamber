@@ -1,17 +1,17 @@
-apiVersion: argoproj.io/v1alpha1
-kind: AppProject
-metadata:
-  name: my-app
-  namespace: argocd
-  annotations:
-    # Sync Application projects before applying Application Sets
-    argocd.argoproj.io/sync-wave: "0"
-spec:
-  sourceRepos:
-  - https://github.com/kristeey/argo-test-chamber
-  destinations:
-  - namespace: 'my-app-*'
-    server: '*'
-  clusterResourceWhitelist:
-  - group: ""
-    kind: Namespace
+# apiVersion: argoproj.io/v1alpha1
+# kind: AppProject
+# metadata:
+#   name: my-app
+#   namespace: argocd
+#   annotations:
+#     # Sync Application projects before applying Application Sets
+#     argocd.argoproj.io/sync-wave: "0"
+# spec:
+#   sourceRepos:
+#   - https://github.com/kristeey/argo-test-chamber
+#   destinations:
+#   - namespace: 'my-app-*'
+#     server: '*'
+#   clusterResourceWhitelist:
+#   - group: ""
+#     kind: Namespace
