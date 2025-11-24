@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysecondapp
-  namespace: mysecondapp-prod
+  name: my-second-app
+  namespace: my-second-app-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysecondapp
+      app: my-second-app
   template:
     metadata:
       labels:
-        app: mysecondapp
+        app: my-second-app
     spec:
       containers:
-      - name: mysecondapp
+      - name: my-second-app
         image: gcr.io/google-samples/hello-app:1.0
         ports:
         - containerPort: 8080
