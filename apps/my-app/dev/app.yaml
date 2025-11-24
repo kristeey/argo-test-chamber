@@ -2,7 +2,7 @@ apiVersion: apps.kristian.io/v1alpha1
 kind: KristianApp
 metadata:
   name: my-app
-  namespace: myapp-dev
+  namespace: my-app-dev
 spec:
   image: gcr.io/google-samples/hello-app:1.0
   environment: dev
