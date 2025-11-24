@@ -1,7 +1,7 @@
 # apiVersion: argoproj.io/v1alpha1
 # kind: ApplicationSet
 # metadata:
-#   name: myhelmapp
+#   name: my-helm-app
 #   namespace: argocd
 #   annotations:
 #     # Sync Application projects before applying Application Sets
@@ -13,7 +13,7 @@
 #         repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
 #         revision: HEAD
 #         files:
-#           - path: "apps/myhelmapp/*/config.json"
+#           - path: "apps/my-helm-app/*/config.json"
 #         values:
 #           applicationName: '{{index .path.segments 1}}-{{index .path.segments 2}}'
 #           helmValuesPath: '/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml'
@@ -45,7 +45,7 @@
 #         server: https://kubernetes.default.svc # In-cluster deployment
 #         namespace: '{{.values.applicationName}}'
 #       # Project within ArgoCD to which the application belongs
-#       project: myhelmapp
+#       project: my-helm-app
 #       # Sync policy for the application
 #       # Configures:
 #       # - automated prune: which will delete resources that are no longer defined in Git
@@ -63,5 +63,5 @@
 #         managedNamespaceMetadata:
 #           labels:
 #             app.kubernetes.io/managed-by: argocd-applicationset-controller
-#             owner: myhelmapp-team
+#             owner: my-helm-app-team
 

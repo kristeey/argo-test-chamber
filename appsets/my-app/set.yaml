@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: myapp
+  name: my-app
   namespace: argocd
   annotations:
     # Sync Application projects before applying Application Sets
@@ -10,7 +10,7 @@ spec:
   generators:
     - git:
         directories:
-          - path: apps/myapp/*
+          - path: apps/my-app/*
         repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
         revision: HEAD
   goTemplate: true
@@ -30,7 +30,7 @@ spec:
         server: https://kubernetes.default.svc # In-cluster deployment
         namespace: '{{index .path.segments 1}}-{{index .path.segments 2}}'
       # Project within ArgoCD to which the application belongs
-      project: myapp
+      project: my-app
       # Sync policy for the application
       # Configures:
       # - automated prune: which will delete resources that are no longer defined in Git
@@ -48,4 +48,4 @@ spec:
         managedNamespaceMetadata:
           labels:
             app.kubernetes.io/managed-by: argocd-applicationset-controller
-            owner: myapp-team
+            owner: my-app-team
