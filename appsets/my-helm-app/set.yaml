@@ -27,10 +27,10 @@ spec:
             # Extract required parameters from the argocd section + image.repo in values.yaml
             # These are used in the template and templatePatch sections
             elementsYaml: |
-              {{ list (dict 
-                "HELM_VERSION" .argocd.HELM_VERSION 
-                "AUTO_IMAGE_UPDATE_ENABLED" .argocd.AUTO_IMAGE_UPDATE_ENABLED 
-                "AUTO_IMAGE_UPDATE_TAG" .argocd.AUTO_IMAGE_UPDATE_TAG 
+              {{ list (dict
+                "HELM_VERSION" .argocd.HELM_VERSION
+                "AUTO_IMAGE_UPDATE_ENABLED" .argocd.AUTO_IMAGE_UPDATE_ENABLED
+                "AUTO_IMAGE_UPDATE_TAG" .argocd.AUTO_IMAGE_UPDATE_TAG
                 "IMAGE_REPO" .image.repo
               ) | toJson }}
   goTemplate: true
@@ -40,15 +40,25 @@ spec:
       # Name of the application decided by the app folder and environment folder
       name: '{{ .values.ARGOCD_APPLICATION_NAME }}'
     spec:
-      # Source repository - Helm chart with values from the same repo
-      source:
-        repoURL: 'https://kristeey.github.io/kristian-app-chart'
-        chart: kristian-app
-        targetRevision: '{{ .HELM_VERSION }}' 
-        helm:
-          valueFiles:
-            - 'https://raw.githubusercontent.com/kristeey/argo-test-chamber/main{{ .values.HELM_VALUES_PATH }}'   
-        
+      # Source repository and path for the application manifests
+      # We use two sources:
+      # 1. valuesrepo: points to main branch of the repo where values.yaml file is located
+      # 2. Helm chart repository: points to the external Helm chart repo and chart version specified.
+      #    we referece the valuesrepo to point at the correct values.yaml file for the environment.
+      #    https://argo-cd.readthedocs.io/en/latest/user-guide/multiple_sources/#helm-value-files-from-external-git-repository
+      sources:
+        # Reference this repo
+        - repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
+          targetRevision: main
+          ref: valuesrepo
+        # Use external versioned Helm chart.
+        - repoURL: 'https://kristeey.github.io/kristian-app-chart'
+          chart: kristian-app
+          # Specify the version of the Helm chart from config.json
+          targetRevision: '{{ .HELM_VERSION }}'
+          helm:
+            valueFiles:
+              - '$valuesrepo{{ .values.HELM_VALUES_PATH }}'
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc # In-cluster deployment
@@ -74,7 +84,8 @@ spec:
             app.kubernetes.io/managed-by: argocd-applicationset-controller
             owner: my-helm-app-team
   templatePatch: |
-    {{- if eq .AUTO_IMAGE_UPDATE_ENABLED "true" }}
+    {{- $enabled := .AUTO_IMAGE_UPDATE_ENABLED | toString  }}
+    {{- if eq $enabled "true" }}
     metadata:
       annotations:
         argocd-image-updater.argoproj.io/image-list: "app={{ .IMAGE_REPO }}:{{ .AUTO_IMAGE_UPDATE_TAG }}"
