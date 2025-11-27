@@ -1,0 +1,51 @@
+
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: my-helm-app-dev
+  namespace: argocd-image-updater-system
+spec:
+  namespace: argocd  # Where Argo CD Applications are located
+  writeBackConfig:
+    method: "git:secret:argocd-image-updater/git-creds"
+    gitConfig:
+      repository: "git@github.com:kristeey/argo-test-chamber.git"
+      branch: "main"
+      writeBackTarget: "helmvalues"
+  applicationRefs:
+    # Dev
+    - namePattern: "my-helm-app-dev"  # Select applications matching this pattern
+      labelSelectors:
+        matchLabels:
+          kristian-app.io/environment: dev
+          kristian-app.io/autoImageUpdateEnabled: "true"
+      images:
+        - alias: "platform-jokes-frontend"  # Alias for the image to be updated
+          imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:dev"
+      commonUpdateSettings:
+        updateStrategy: "digest"  # Use digest-based updates
+        allowTags: "^dev$"  # Only allow tags matching 'dev'
+    # Stage
+    - namePattern: "my-helm-app-stage"  # Select applications matching this pattern
+      labelSelectors:
+        matchLabels:
+          kristian-app.io/environment: stage
+          kristian-app.io/autoImageUpdateEnabled: "true"
+      images:
+        - alias: "platform-jokes-frontend"  # Alias for the image to be updated
+          imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:stage"
+      commonUpdateSettings:
+        updateStrategy: "digest"  # Use digest-based updates
+        allowTags: "^stage$"  # Only allow tags matching 'stage'
+    # Prod
+    - namePattern: "my-helm-app-prod"  # Select applications matching this pattern
+      labelSelectors:
+        matchLabels:
+          kristian-app.io/environment: prod
+          kristian-app.io/autoImageUpdateEnabled: "true"
+      images:
+        - alias: "platform-jokes-frontend"  # Alias for the image to be updated
+          imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:prod"
+      commonUpdateSettings:
+        updateStrategy: "digest"  # Use digest-based updates
+        allowTags: "^prod$"  # Only allow tags matching 'prod'
