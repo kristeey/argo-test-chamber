@@ -2,7 +2,7 @@
 # DO NOT EDIT THIS LINE MANUALLY
 argocd:
   HELM_VERSION: 0.0.4
-  AUTO_IMAGE_UPDATE_ENABLED: "true"
+  AUTO_IMAGE_UPDATE_ENABLED: false
   AUTO_IMAGE_UPDATE_TAG: stage
 
 ##################################################
