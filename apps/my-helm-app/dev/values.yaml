@@ -1,15 +1,22 @@
-# CI test values - minimal configuration
-# This file is used by chart-testing to validate the chart installation
+# THESE VALUES ARE MANAGED BY PLATFORM TEAM
+# DO NOT EDIT THIS LINE MANUALLY
+HELM_VERSION: 0.0.4
+AUTO_IMAGE_UPDATE: "true"
+AUTO_IMAGE_UPDATE_TAG: dev
 
-# Use default values with minimal overrides for CI testing
+##################################################
+# Edit values below to fit your environment      #
+# For all configurable options, see chart        #
+# 
+##################################################
+
 team: "test-team"
 product: "test-product"
 environment: dev
 
 image:
-  repo: "gcr.io/google-samples/hello-app"
-  tag: "1.0"
-  port: 8080
+  repo: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-api"
+  tag: "dev"
 
 ingress:
   enabled: false
