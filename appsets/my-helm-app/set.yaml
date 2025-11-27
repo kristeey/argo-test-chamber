@@ -8,55 +8,51 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
-    # Git Files generator to read values.yaml file in the apps directory
-    # This allows dynamic generation of applications based on the values and chart version specified
-    - git:
-        repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
-        revision: HEAD
-        files:
-          - path: "apps/my-helm-app/*/values.yaml"
-        values:
-          ARGOCD_APPLICATION_NAME: '{{index .path.segments 1}}-{{index .path.segments 2}}'
-          HELM_VALUES_PATH: '/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml'
-
+    - matrix:
+        generators:
+        # Git Files generator to read values.yaml file in the apps directory
+        # This allows dynamic generation of applications based on the values and chart version specified
+        - git:
+            repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
+            revision: main
+            files:
+              - path: "apps/my-helm-app/*/values.yaml"
+            values:
+              # Define variables to extract from the file path and content
+              # These are used later in the template to set application names and Helm values paths
+              ARGOCD_APPLICATION_NAME: '{{index .path.segments 1}}-{{index .path.segments 2}}'
+              HELM_VALUES_PATH: '/apps/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml'
+        - list:
+            elements: []
+            # Extract required parameters from the argocd section + image.repo in values.yaml
+            # These are used in the template and templatePatch sections
+            elementsYaml: |
+              {{ list (dict 
+                "HELM_VERSION" .argocd.HELM_VERSION 
+                "AUTO_IMAGE_UPDATE_ENABLED" .argocd.AUTO_IMAGE_UPDATE_ENABLED 
+                "AUTO_IMAGE_UPDATE_TAG" .argocd.AUTO_IMAGE_UPDATE_TAG 
+                "IMAGE_REPO" .image.repo
+              ) | toJson }}
   goTemplate: true
   goTemplateOptions: ['missingkey=error']
   template:
     metadata:
       # Name of the application decided by the app folder and environment folder
-      name: '{{.values.ARGOCD_APPLICATION_NAME}}'
-      annotations:
-        # Argo image updater annotation to enable automatic image updates
-        argocd-image-updater.argoproj.io/image-list: "app=tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-api"
-        argocd-image-updater.argoproj.io/app.helm.image-name: "image.repo"
-        argocd-image-updater.argoproj.io/app.helm.image-tag: "{{.AUTO_IMAGE_UPDATE_TAG}}"
-        argocd-image-updater.argoproj.io/app.update-strategy: "digest"
-        argocd-image-updater.argoproj.io/git-repository: git@github.com:kristeey/argo-test-chambers.git
-        argocd-image-updater.argoproj.io/git-branch: main
-        argocd-image-updater.argoproj.io/write-back-method: git
-        argocd-image-updater.argoproj.io/write-back-target: helmvalues:./values.yaml
-        argocd-image-updater.argoproj.io/pull-policy: "IfNotPresent"
-
+      name: '{{ .values.ARGOCD_APPLICATION_NAME }}'
     spec:
-      # Source repository and path for the application manifests
-      sources:
-        # reference to values repository
-        - repoURL: 'https://github.com/kristeey/argo-test-chamber.git'
-          targetRevision: HEAD
-          ref: valuesrepo
-        # Use external versioned Helm chart.  
-        - repoURL: 'https://kristeey.github.io/kristian-app-chart'
-          chart: kristian-app
-          # Specify the version of the Helm chart from config.json
-          targetRevision: '{{.HELM_VERSION}}' 
-          helm:
-            valueFiles:
-              - '$valuesrepo/{{.values.HELM_VALUES_PATH}}'   
+      # Source repository - Helm chart with values from the same repo
+      source:
+        repoURL: 'https://kristeey.github.io/kristian-app-chart'
+        chart: kristian-app
+        targetRevision: '{{ .HELM_VERSION }}' 
+        helm:
+          valueFiles:
+            - 'https://raw.githubusercontent.com/kristeey/argo-test-chamber/main{{ .values.HELM_VALUES_PATH }}'   
         
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc # In-cluster deployment
-        namespace: '{{.values.ARGOCD_APPLICATION_NAME}}'
+        namespace: '{{ .values.ARGOCD_APPLICATION_NAME }}'
       # Project within ArgoCD to which the application belongs
       project: my-helm-app
       # Sync policy for the application
@@ -77,4 +73,18 @@ spec:
           labels:
             app.kubernetes.io/managed-by: argocd-applicationset-controller
             owner: my-helm-app-team
+  templatePatch: |
+    {{- if eq .AUTO_IMAGE_UPDATE_ENABLED "true" }}
+    metadata:
+      annotations:
+        argocd-image-updater.argoproj.io/image-list: "app={{ .IMAGE_REPO }}:{{ .AUTO_IMAGE_UPDATE_TAG }}"
+        argocd-image-updater.argoproj.io/app.helm.image-name: "app.image.repo"
+        argocd-image-updater.argoproj.io/app.helm.image-tag: "app.image.tag"
+        argocd-image-updater.argoproj.io/app.update-strategy: "digest"
+        argocd-image-updater.argoproj.io/git-repository: git@github.com:kristeey/argo-test-chambers.git
+        argocd-image-updater.argoproj.io/git-branch: main
+        argocd-image-updater.argoproj.io/write-back-method: git
+        argocd-image-updater.argoproj.io/write-back-target: helmvalues:./values.yaml
+        argocd-image-updater.argoproj.io/pull-policy: "IfNotPresent"
+    {{- end }}
 
