@@ -16,7 +16,7 @@ product: "test-product"
 environment: stage
 
 image:
-  repo: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-api"
+  repo: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend"
   tag: "stage"
   pullSecrets:
     - name: acr-secret
@@ -25,7 +25,7 @@ ingress:
   enabled: false
 
 resources:
-  memory: 64Mi
+  memory: 256Mi
 
 autoscaling:
   enabled: true
