@@ -1,9 +1,8 @@
 # THESE VALUES ARE MANAGED BY PLATFORM TEAM
 # DO NOT EDIT THIS LINE MANUALLY
-argocd: 
-  HELM_VERSION: 0.0.4
-  AUTO_IMAGE_UPDATE_ENABLED: "true"
-  AUTO_IMAGE_UPDATE_TAG: dev
+HELM_VERSION: 0.0.4
+AUTO_IMAGE_UPDATE_ENABLED: "true"
+AUTO_IMAGE_UPDATE_TAG: dev
 
 ##################################################
 # Edit values below to fit your environment      #
