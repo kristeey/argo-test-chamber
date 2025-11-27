@@ -24,7 +24,7 @@ spec:
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:dev"
       commonUpdateSettings:
         updateStrategy: "digest"  # Use digest-based updates
-        allowTags: "^dev$"  # Only allow tags matching 'dev'
+        allowTags: "regexp:^dev$"  # Only allow tags matching 'dev'
     # Stage
     - namePattern: "my-helm-app-stage"  # Select applications matching this pattern
       labelSelectors:
@@ -36,7 +36,7 @@ spec:
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:stage"
       commonUpdateSettings:
         updateStrategy: "digest"  # Use digest-based updates
-        allowTags: "^stage$"  # Only allow tags matching 'stage'
+        allowTags: "regexp:^stage$"  # Only allow tags matching 'stage'
     # Prod
     - namePattern: "my-helm-app-prod"  # Select applications matching this pattern
       labelSelectors:
@@ -48,4 +48,4 @@ spec:
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:prod"
       commonUpdateSettings:
         updateStrategy: "digest"  # Use digest-based updates
-        allowTags: "^prod$"  # Only allow tags matching 'prod'
+        allowTags: "regexp:^prod$"  # Only allow tags matching 'prod'
