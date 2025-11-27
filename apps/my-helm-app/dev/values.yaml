@@ -3,7 +3,7 @@
 argocd: 
   HELM_VERSION: 0.0.4
   AUTO_IMAGE_UPDATE_ENABLED: "true"
-  AUTOIMAGE_UPDATE_TAG: dev
+  AUTO_IMAGE_UPDATE_TAG: dev
 
 ##################################################
 # Edit values below to fit your environment      #
