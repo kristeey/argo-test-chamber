@@ -19,7 +19,7 @@ image:
   repo: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-api"
   tag: "dev"
   pullSecrets:
-    - acr-secret
+    - name: acr-secret
 
 ingress:
   enabled: false
