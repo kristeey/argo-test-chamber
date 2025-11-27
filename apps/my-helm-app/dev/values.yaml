@@ -1,7 +1,7 @@
 # THESE VALUES ARE MANAGED BY PLATFORM TEAM
 # DO NOT EDIT THIS LINE MANUALLY
 argocd:
-  HELM_VERSION: 0.0.4
+  HELM_VERSION: 0.0.7
   AUTO_IMAGE_UPDATE_ENABLED: "true"
   AUTO_IMAGE_UPDATE_TAG: dev
 
@@ -18,6 +18,8 @@ environment: dev
 image:
   repo: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-api"
   tag: "dev"
+  pullSecrets:
+    - acr-secret
 
 ingress:
   enabled: false
