@@ -1,9 +1,8 @@
 # THESE VALUES ARE MANAGED BY PLATFORM TEAM
 # DO NOT EDIT THIS LINE MANUALLY
 argocd:
-  HELM_VERSION: 0.0.7
+  HELM_VERSION: 0.0.8
   AUTO_IMAGE_UPDATE_ENABLED: false
-  AUTO_IMAGE_UPDATE_TAG: stage
 
 ##################################################
 # Edit values below to fit your environment      #
@@ -16,7 +15,7 @@ product: "test-product"
 environment: stage
 
 image:
-  repo: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend"
+  name: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend"
   tag: "stage"
   pullSecrets:
     - name: acr-secret
