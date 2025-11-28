@@ -30,6 +30,10 @@ spec:
       images:
         - alias: "platform-jokes-frontend"  # Alias for the image to be updated
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:dev"
+          manifestTargets:
+            helm:
+              name: "image.name"
+              tag: "image.tag"
     # Stage
     - namePattern: "my-helm-app-stage"  # Select applications matching this pattern
       labelSelectors:
@@ -48,6 +52,10 @@ spec:
       images:
         - alias: "platform-jokes-frontend"  # Alias for the image to be updated
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:stage"
+          manifestTargets:
+            helm:
+              name: "image.name"
+              tag: "image.tag"
     # Prod
     - namePattern: "my-helm-app-prod"  # Select applications matching this pattern
       labelSelectors:
@@ -66,3 +74,7 @@ spec:
       images:
         - alias: "platform-jokes-frontend"  # Alias for the image to be updated
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:prod"
+          manifestTargets:
+            helm:
+              name: "image.name"
+              tag: "image.tag"
