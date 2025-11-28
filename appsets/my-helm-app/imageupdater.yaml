@@ -7,7 +7,7 @@ metadata:
 spec:
   namespace: argocd  # Where Argo CD Applications are located
   writeBackConfig:
-    method: "git:secret:argocd-image-updater/git-creds"
+    method: "git:secret:argocd-image-updater-system/git-creds"
     gitConfig:
       repository: "git@github.com:kristeey/argo-test-chamber.git"
       branch: "main"
