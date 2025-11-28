@@ -18,42 +18,51 @@ spec:
         matchLabels:
           kristian-app.io/environment: dev
           kristian-app.io/autoImageUpdateEnabled: "true"
+      writeBackConfig:
+        method: "git:secret:argocd-image-updater-system/git-creds"
+        gitConfig:
+          repository: "git@github.com:kristeey/argo-test-chamber.git"
+          branch: "main"
+          writeBackTarget: "helmvalues:/apps/my-helm-app/dev/values.yaml"
+      commonUpdateSettings:
+        updateStrategy: "digest"  # Use digest-based updates
+        allowTags: "regexp:^dev$"  # Only allow tags matching 'dev'
       images:
         - alias: "platform-jokes-frontend"  # Alias for the image to be updated
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:dev"
-          writeBackConfig:
-            gitConfig:
-              writeBackTarget: "helmvalues:/apps/my-helm-app/dev/values.yaml"
-          commonUpdateSettings:
-            updateStrategy: "digest"  # Use digest-based updates
-            allowTags: "regexp:^dev$"  # Only allow tags matching 'dev'
     # Stage
     - namePattern: "my-helm-app-stage"  # Select applications matching this pattern
       labelSelectors:
         matchLabels:
           kristian-app.io/environment: stage
           kristian-app.io/autoImageUpdateEnabled: "true"
+      writeBackConfig:
+        method: "git:secret:argocd-image-updater-system/git-creds"
+        gitConfig:
+          repository: "git@github.com:kristeey/argo-test-chamber.git"
+          branch: "main"
+          writeBackTarget: "helmvalues:/apps/my-helm-app/stage/values.yaml"
+      commonUpdateSettings:
+        updateStrategy: "digest"  # Use digest-based updates
+        allowTags: "regexp:^stage$"  # Only allow tags matching 'stage'
       images:
         - alias: "platform-jokes-frontend"  # Alias for the image to be updated
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:stage"
-          writeBackConfig:
-            gitConfig:
-              writeBackTarget: "helmvalues:/apps/my-helm-app/stage/values.yaml"
-          commonUpdateSettings:
-            updateStrategy: "digest"  # Use digest-based updates
-            allowTags: "regexp:^stage$"  # Only allow tags matching 'stage'
     # Prod
     - namePattern: "my-helm-app-prod"  # Select applications matching this pattern
       labelSelectors:
         matchLabels:
           kristian-app.io/environment: prod
           kristian-app.io/autoImageUpdateEnabled: "true"
+      writeBackConfig:
+        method: "git:secret:argocd-image-updater-system/git-creds"
+        gitConfig:
+          repository: "git@github.com:kristeey/argo-test-chamber.git"
+          branch: "main"
+          writeBackTarget: "helmvalues:/apps/my-helm-app/prod/values.yaml"
+      commonUpdateSettings:
+        updateStrategy: "digest"  # Use digest-based updates
+        allowTags: "regexp:^prod$"  # Only allow tags matching 'prod'
       images:
         - alias: "platform-jokes-frontend"  # Alias for the image to be updated
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:prod"
-          writeBackConfig:
-            gitConfig:
-              writeBackTarget: "helmvalues:/apps/my-helm-app/prod/values.yaml"
-          commonUpdateSettings:
-            updateStrategy: "digest"  # Use digest-based updates
-            allowTags: "regexp:^prod$"  # Only allow tags matching 'prod'
