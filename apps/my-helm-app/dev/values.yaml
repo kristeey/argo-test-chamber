@@ -13,7 +13,7 @@ product: "test-product"
 environment: dev
 image:
   name: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend"
-  tag: "dev"
+  tag: "dev@sha256:d75125e8e320de99aea7d6b2c1af0f7f8c6f4a2f9220b4dec7d93e83966892e7"
   pullSecrets:
   - name: acr-secret
 ingress:
