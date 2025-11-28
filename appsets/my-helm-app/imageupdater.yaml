@@ -27,6 +27,7 @@ spec:
       commonUpdateSettings:
         updateStrategy: "digest"  # Use digest-based updates
         allowTags: "regexp:^dev$"  # Only allow tags matching 'dev'
+        forceUpdate: true  # Force update even if tag is the same
       images:
         - alias: "platform-jokes-frontend"  # Alias for the image to be updated
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:dev"
