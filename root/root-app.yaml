@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/kristeey/argo-test-chamber.git
-    targetRevision: HEAD
+    targetRevision: main
     path: appsets
     # Recursively include all manifests in subdirectories
     directory:
