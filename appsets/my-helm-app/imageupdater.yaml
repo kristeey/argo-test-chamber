@@ -11,7 +11,6 @@ spec:
     gitConfig:
       repository: "git@github.com:kristeey/argo-test-chamber.git"
       branch: "main"
-      writeBackTarget: helmvalues
   commonUpdateSettings:
     updateStrategy: digest  # Use digest-based updates
   applicationRefs:
@@ -23,7 +22,7 @@ spec:
           kristian-app.io/autoImageUpdateEnabled: "true"
       writeBackConfig:
         gitConfig:
-          writeBackTarget: helmvalues
+          writeBackTarget: helmvalues:/apps/my-helm-app/dev/values.yaml
       images:
         - alias: "platform-jokes-frontend"  # Alias for the image to be updated
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:dev"
