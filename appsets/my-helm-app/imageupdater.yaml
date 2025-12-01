@@ -11,6 +11,7 @@ spec:
     gitConfig:
       repository: "git@github.com:kristeey/argo-test-chamber.git"
       branch: "main"
+      writeBackTarget: helmvalues
   commonUpdateSettings:
     updateStrategy: digest  # Use digest-based updates
   applicationRefs:
