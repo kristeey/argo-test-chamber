@@ -21,6 +21,9 @@ spec:
         matchLabels:
           kristian-app.io/environment: dev
           kristian-app.io/autoImageUpdateEnabled: "true"
+      writeBackConfig:
+        gitConfig:
+          writeBackTarget: helmvalues
       images:
         - alias: "platform-jokes-frontend"  # Alias for the image to be updated
           imageName: "tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend:dev"
