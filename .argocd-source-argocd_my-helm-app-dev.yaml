@@ -1,8 +1,0 @@
-helm:
-  parameters:
-  - name: image.name
-    value: tmpplatformjokesacr-cwbddta9eveuc0gu.azurecr.io/platform-jokes-frontend
-    forcestring: true
-  - name: image.tag
-    value: b0f5b9367b45345ebc740425e4adc13f188dad3c
-    forcestring: true
